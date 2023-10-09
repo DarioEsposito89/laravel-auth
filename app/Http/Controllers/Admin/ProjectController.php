@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ValidationProjectRequest;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use Illuminate\Contracts\View\View;
@@ -29,29 +30,11 @@ class ProjectController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function store(Request $request):RedirectResponse
+    public function store(ValidationProjectRequest $request):RedirectResponse
     {
-        $data = $request->validate([
-            "title"=>"required|string",
-            "language"=>"required|string",
-            "link"=>"required|string",
-            "description"=>"required|string",
-            "thumb"=>"required|string",
-            "release"=>"required|date",
-        ]); 
+        $data = $request->validated(); 
 
-        $counter = 0;
-
-        do {
-            $slug = Str::slug($data["title"]) . ($counter > 0 ? "-" . $counter : "");
-
-            $alreadyExists = Project::where("slug", $slug)->first();
-
-            $counter++;
-            
-        } while ($alreadyExists); 
-
-        $data["slug"] = $slug;
+        $data["slug"] = $this->generateSlug($data["title"]);
 
 
         $data["language"] = explode(",", $data["language"]);
@@ -61,7 +44,7 @@ class ProjectController extends Controller
 
         $project = Project::create($data);
 
-        return redirect()->route("admin.projects.show", $project->id);
+        return redirect()->route("admin.projects.show", $project->slug);
     }
 
     //READ
@@ -110,28 +93,25 @@ class ProjectController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * @param int $id
+     * @param string $slug
      * @param Request $request
      * @return RedirectResponse
      */
-    public function update(Request $request, int $id):RedirectResponse
+    public function update(ValidationProjectRequest $request, string $slug):RedirectResponse
     {
-        $project = Project::findOrFail($id);
+        $project = Project::where("slug", $slug)->first();
 
-        $data = $request->validate([
-            "title"=>"required|string",
-            "language"=>"required|string",
-            "link"=>"required|string",
-            "description"=>"required|string",
-            "thumb"=>"required|string",
-            "release"=>"required|date",
-        ]); 
+        $data = $request->validated(); 
+
+        if($data["title"] !== $project->title){
+            $data["slug"] = $this->generateSlug($data["title"]);
+        }
 
         $data["language"] = explode(",", $data["language"]);
 
         $project->update($data);
 
-        return redirect()->route("admin.projects.show", $project->id);
+        return redirect()->route("admin.projects.show", $project->slug);
 
     }
 
@@ -148,5 +128,22 @@ class ProjectController extends Controller
         $project->delete();
 
         return redirect()->route("admin.projects.index");
+    }
+
+    // FUNZIONE PER OTTIMIZZARE LE GENERAZIONE DI SLUG
+
+    protected function generateSlug($title){
+        $counter = 0;
+
+        do {
+            $slug = Str::slug($title) . ($counter > 0 ? "-" . $counter : "");
+
+            $alreadyExists = Project::where("slug", $slug)->first();
+
+            $counter++;
+            
+        } while ($alreadyExists); 
+
+        return $data["slug"] = $slug;
     }
 }
