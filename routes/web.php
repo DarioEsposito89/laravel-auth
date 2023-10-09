@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProjectController as GuestController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -15,9 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('guests.welcome');
-});
+Route::get('/', [GuestController::class, "index"])->name("guests.welcome");
 
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
@@ -38,11 +37,11 @@ Route::middleware(['auth', 'verified'])
         Route::get("/projects/{project}", [ProjectController::class, "show"])->name("projects.show");
 
         //update
-        Route::get("/projects/{project}/edit", [ProjectController::class, "edit"])->name("project.edit");
-        Route::match(["put", "patch"], "/projects/{project}", [ProjectController::class, "update"])->name("project.update");
+        Route::get("/projects/{project}/edit", [ProjectController::class, "edit"])->name("projects.edit");
+        Route::match(["put", "patch"], "/projects/{project}", [ProjectController::class, "update"])->name("projects.update");
 
         //delete
-        Route::delete("/projects/{project}", [ProjectController::class, "destroy"])->name("project.destroy");
+        Route::delete("/projects/{project}", [ProjectController::class, "destroy"])->name("projects.destroy");
     });
 
 
