@@ -1,21 +1,33 @@
 @extends('layouts.app')
 
 @section("content")
-    <div class="container mt-5">
+    <div class="container mt-5 index-container">
         <div class="row">
-            @foreach ($projects as $singleProject )
-                <div class="col">
-                    <div class="card">
-                        <h1>{{$singleProject->title}}</h1>
-
-                        <a href="{{route("admin.projects.show", $singleProject->slug )}}" class="btn btn-primary btn-lg" type="button">Dettagli</a>
-
-                        <a href="{{route("admin.profile.edit")}}" class="btn btn-primary btn-lg mt-2" type="button"" >Edit</a>
-                        
-                    </div>
-                </div>
-                
-            @endforeach
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Language</th>
+                            <th>Link</th>
+                            <th>Action</th>
+                        </tr>                    
+                    </thead>
+                    <tbody>
+                        @foreach ($projects as $singleProject )  
+                        <tr>
+                            <td>{{$singleProject->title}}</td>
+                            <td>{{implode(",", $singleProject->language)}}</td>
+                            <td>{{$singleProject->link}}</td>
+                            <td>
+                                <a href="{{route("admin.projects.show", $singleProject->slug )}}" class="btn btn-primary btn-lg" type="button">Dettagli</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>    
+            </div>
+            
         </div>
     </div>
 @endsection
