@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section("content")
-    <div class="container text-dark pb-5">
+    <div class="container text-light pb-5">
         <div class="row">
             <div class="col show-col">
                 <div class="show-box d-flex flex-column gap-2">
@@ -17,8 +17,8 @@
                 {{-- BUTTONS --}}
 
                 <div class="Btn-container d-flex gap-4 mt-3">
-                    <a href="{{route("admin.projects.edit", $project->id)}}" class="btn btn-primary btn-lg mt-2" type="button">EDIT</a>
-                    <form action="{{route("admin.projects.destroy", $project->id)}}" method="POST">
+                    <a href="{{route("admin.projects.edit", $project->id)}}" class="btn btn-primary btn-lg mt-2" type="button"">EDIT</a>
+                    <form action="{{route("admin.projects.destroy", $project->slug)}}" method="POST">
                         @csrf
                         @method("DELETE")
                         <button class="btn btn-primary btn-lg mt-2" type="submit"> DELETE </button>
