@@ -99,7 +99,7 @@ class ProjectController extends Controller
      */
     public function update(ValidationProjectRequest $request, string $slug):RedirectResponse
     {
-        $project = Project::where("slug", $slug)->first();
+        $project = Project::where("slug", $slug)->firstorFail();
 
         $data = $request->validated(); 
 
@@ -119,12 +119,12 @@ class ProjectController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param int $id
+     * @param string $slug
      * @return RedirectResponse
      */
-    public function destroy(int $id):RedirectResponse
+    public function destroy(string $slug):RedirectResponse
     {
-        $project = Project::findOrFail($id);
+        $project = Project::where("slug", $slug)->firstorFail();
         $project->delete();
 
         return redirect()->route("admin.projects.index");
