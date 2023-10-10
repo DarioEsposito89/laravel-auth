@@ -27,6 +27,10 @@
                     </tbody>
                 </table>    
             </div>
+
+            <div class="create-container text-center mt-5">
+                <a href="{{route("admin.projects.create")}}" class="btn btn-primary btn-lg" type="button">ADD PROJECT</a>
+            </div>
             
         </div>
     </div>
