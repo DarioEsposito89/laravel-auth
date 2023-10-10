@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="jumbotron p-5 mb-4 mt-5 rounded-3 text-light">
-    <div class="container py-5 px-5">
+<div class="jumbotron p-2 rounded-3 text-light">
+    <div class="container py-2 px-5">
         <div class="row align-items-center">
             <div class="col-12 col-lg-6 d-flex flex-column align-items-center justify-content-center gap-4">
                 <h1 class="display-4 fw-bold text-center text-dark">
@@ -20,13 +20,11 @@
     </div>
 </div>
 
-<div class="content p-5">
+<div class="content">
     <div class="container-fluid text-light text-center p-5">
-        <h2 class="display-5 fst-italic">My works</h2>
-
-        <div class="row row-cols-3 mt-5 g-5 p-2" >
+        <div class="row row-cols-3 g-5 p-2" >
             @foreach ( $projects as $project)
-                <div class="col mt-5">
+                <div class="col">
                     <div class="card proj-card">
                         <img src="{{$project->thumb}}" class="card-img-top" alt=".">
                         <div class="card-body d-flex flex-column">
@@ -42,8 +40,8 @@
         </div>
     </div>
 
-    <div class="watch-more mt-5 text-center">
-        <a href="{{route("admin.projects.index")}}" class="btn btn-primary more-button">WATCH MORE</a>
+    <div class="watch-more mt-3 text-center">
+        <a href="{{route("admin.projects.index")}}" class="btn btn-primary more-button">Watch my projects</a>
     </div>
 </div>
 @endsection
