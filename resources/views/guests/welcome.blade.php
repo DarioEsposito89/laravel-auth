@@ -21,12 +21,12 @@
 </div>
 
 <div class="content">
-    <div class="container-fluid text-light text-center p-5">
+    <div class="container-fluid text-dark text-center p-5">
         <div class="row row-cols-3 g-5 p-2" >
             @foreach ( $projects as $project)
                 <div class="col">
                     <div class="card proj-card">
-                        <img src="{{$project->thumb}}" class="card-img-top" alt=".">
+                        <img src="{{asset("storage/" . $project->thumb)}}" class="card-img-top" alt=".">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{{$project->title}}</h5>
                             <small>{{implode(",", $project->language )}}</small>

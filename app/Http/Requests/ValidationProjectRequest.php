@@ -26,7 +26,7 @@ class ValidationProjectRequest extends FormRequest
             "language"=>"required|string",
             "link"=>"required|string",
             "description"=>"required|string",
-            "thumb"=>"required|string",
+            "thumb"=>"nullable|image|max:5120",
             "release"=>"required|date",
         ];
     }

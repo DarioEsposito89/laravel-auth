@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProjectController extends Controller
@@ -38,6 +39,8 @@ class ProjectController extends Controller
 
 
         $data["language"] = explode(",", $data["language"]);
+
+        $data["thumb"] = Storage::put("projects", $data["thumb"]);
 
         //creo l'istanza di Project, fill per assegnare i dati all'istanza
         //save per salvarli nel database
@@ -109,6 +112,14 @@ class ProjectController extends Controller
 
         $data["language"] = explode(",", $data["language"]);
 
+        if(isset($data["thumb"])){
+            if($project->thumb){
+                Storage::delete($project->thumb);
+            }
+            
+            $data["thumb"] = Storage::put("projects", $data["thumb"]);
+        }
+
         $project->update($data);
 
         return redirect()->route("admin.projects.show", $project->slug);
@@ -125,6 +136,11 @@ class ProjectController extends Controller
     public function destroy(string $slug):RedirectResponse
     {
         $project = Project::where("slug", $slug)->firstorFail();
+
+        if ($project->thumb) {
+            Storage::delete($project->thumb);
+        }
+
         $project->delete();
 
         return redirect()->route("admin.projects.index");
