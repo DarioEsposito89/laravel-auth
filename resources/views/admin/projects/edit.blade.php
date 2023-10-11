@@ -3,7 +3,7 @@
 @section("content")
     <div class="container edit-container mt-5">
         <div class="row">
-            <div class="col text-light">
+            <div class="col text-dark">
                 <form action="{{route('admin.projects.update', $project->slug)}}" method="POST" enctype="multipart/form-data">
                     @csrf()
                     @method("put")
