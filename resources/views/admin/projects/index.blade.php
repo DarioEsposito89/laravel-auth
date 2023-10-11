@@ -9,6 +9,7 @@
                         <tr>
                             <th>Title</th>
                             <th>Language</th>
+                            <th>Image</th>
                             <th>Link</th>
                             <th>Action</th>
                         </tr>                    
@@ -18,6 +19,7 @@
                         <tr>
                             <td>{{$singleProject->title}}</td>
                             <td>{{implode(",", $singleProject->language)}}</td>
+                            <td><img src={{ asset('/storage/' . $singleProject->thumb) }} class="img-thumbnail" style="width: 100px"></td>
                             <td>{{$singleProject->link}}</td>
                             <td>
                                 <a href="{{route("admin.projects.show", $singleProject->slug )}}" class="btn btn-primary btn-lg" type="button">Dettagli</a>
